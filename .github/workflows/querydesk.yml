@@ -1,9 +1,11 @@
 name: QueryDesk CLI
 
-# Run by hand after a CLI release: points Casks/querydesk.rb at devhub-tools/querydesk-cli's
-# latest release (prereleases excluded). The tap updates itself, so the CLI's release needs no
+# Points Casks/querydesk.rb at devhub-tools/querydesk-cli's latest release (prereleases
+# excluded), hourly or when run by hand. The tap updates itself, so the CLI's release needs no
 # credentials for it.
 on:
+  schedule:
+    - cron: "17 * * * *"
   workflow_dispatch:
 
 permissions:
