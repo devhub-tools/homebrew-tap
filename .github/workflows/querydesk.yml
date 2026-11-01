@@ -1,0 +1,47 @@
+name: QueryDesk CLI
+
+# Run by hand after a CLI release: points Casks/querydesk.rb at devhub-tools/querydesk-cli's
+# latest release (prereleases excluded). The tap updates itself, so the CLI's release needs no
+# credentials for it.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency: querydesk
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Latest release
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag=$(gh release view --repo devhub-tools/querydesk-cli --json tagName --jq .tagName 2>/dev/null || true)
+          if [[ -z "$tag" ]]; then
+            echo "querydesk-cli has no release yet"
+            exit 0
+          fi
+          echo "version=${tag#v}" >>"$GITHUB_OUTPUT"
+          gh release download "$tag" --repo devhub-tools/querydesk-cli --pattern '*_SHA256SUMS' --output "$RUNNER_TEMP/sums"
+
+      - name: Write the cask
+        if: steps.release.outputs.version
+        run: scripts/querydesk-cask.sh "${{ steps.release.outputs.version }}" "$RUNNER_TEMP/sums"
+
+      - name: Commit a new version
+        if: steps.release.outputs.version
+        run: |
+          git add Casks/querydesk.rb
+          if git diff --cached --quiet; then
+            echo "already on ${{ steps.release.outputs.version }}"
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -m "querydesk ${{ steps.release.outputs.version }}"
+          git push
