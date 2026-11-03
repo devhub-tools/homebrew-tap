@@ -1,24 +1,24 @@
 # Written by .github/workflows/querydesk.yml from devhub-tools/querydesk-cli's latest release.
 cask "querydesk" do
-  version "2.46.1.1"
+  version "3.0.0"
 
   on_macos do
     on_arm do
-      sha256 "3989b91d371c05525fa8dadfd6ff12d18b6fbceb10e7f48f60d6446920f546a0"
+      sha256 "a72130a3b89f5631d0603fa57eaa8e593769bdaff5a418ecf0332338ddb892f1"
       url "https://github.com/devhub-tools/querydesk-cli/releases/download/v#{version}/querydesk_#{version}_darwin_arm64.tar.gz"
     end
     on_intel do
-      sha256 "8acbf4fffd6f4b9070282cf339f8927a8871597ee862daaf519d75a20ceea294"
+      sha256 "19db9067d49b65810146284944710419b44ad5f52b4b9c3f762c4c7fc3730a7f"
       url "https://github.com/devhub-tools/querydesk-cli/releases/download/v#{version}/querydesk_#{version}_darwin_amd64.tar.gz"
     end
   end
   on_linux do
     on_arm do
-      sha256 "233e3054e738bd75e7447b0910aad7c3ca5a95682a97f588491ba8d8a70ebe98"
+      sha256 "ff31472dbfa307ba861f980015aae05de90e27d8968762d703710f7da9767ef0"
       url "https://github.com/devhub-tools/querydesk-cli/releases/download/v#{version}/querydesk_#{version}_linux_arm64.tar.gz"
     end
     on_intel do
-      sha256 "f852d03d84f5ad94962ab98c4fe2820a8ecf8198d187340daa6f2e96a5a07238"
+      sha256 "7436535c28978afd72e5610ebce7fc534e2a791d310a110895819a7f45f6503f"
       url "https://github.com/devhub-tools/querydesk-cli/releases/download/v#{version}/querydesk_#{version}_linux_amd64.tar.gz"
     end
   end
